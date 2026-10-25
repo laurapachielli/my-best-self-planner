@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Best Self ♡</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#fff8fb,#f7f0ff);
+  color:#4d4050;
+  min-height:100vh;
+}
+header{
+  background:rgba(255,255,255,.9);
+  padding:20px;
+  text-align:center;
+  border-bottom:1px solid #f0dfea;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.logo{
+  font-family:Georgia,serif;
+  font-size:28px;
+  color:#9d6c91;
+}
+.logo span{color:#d99fc6}
+header p{font-size:13px;color:#927d91;margin-top:5px}
+
+nav{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:12px;
+  background:#fff;
+  position:sticky;
+  top:83px;
+  z-index:9;
+}
+nav button{
+  border:0;
+  background:#f9eef6;
+  color:#775c70;
+  padding:10px 15px;
+  border-radius:20px;
+  white-space:nowrap;
+  font-weight:bold;
+}
+nav button.active{
+  background:#dca9ca;
+  color:white;
+}
+
+main{max-width:900px;margin:auto;padding:20px}
+.page{display:none}
+.page.active{display:block}
+
+h1{
+  font-family:Georgia,serif;
+  color:#8d6481;
+  margin-bottom:8px;
+}
+.subtitle{color:#9c8999;margin-bottom:20px}
+
+.card{
+  background:rgba(255,255,255,.92);
+  border:1px solid #f1dfeb;
+  border-radius:22px;
+  padding:20px;
+  margin-bottom:16px;
+  box-shadow:0 5px 20px rgba(150,110,140,.08);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+}
+
+.mood{
+  display:flex;
+  justify-content:space-around;
+  font-size:28px;
+  margin-top:15px;
+}
+.mood button{
+  background:#fff5fa;
+  border:2px solid transparent;
+  border-radius:15px;
+  padding:10px;
+}
+.mood button:hover{border-color:#dda7c9}
+
+input,textarea,select{
+  width:100%;
+  border:1px solid #ead5e4;
+  border-radius:13px;
+  padding:12px;
+  margin:7px 0;
+  background:#fffafd;
+  color:#554653;
+  font-size:15px;
+}
+textarea{min-height:140px;resize:vertical}
+
+.primary{
+  background:#c995b8;
+  color:white;
+  border:0;
+  border-radius:14px;
+  padding:11px 17px;
+  font-weight:bold;
+  margin-top:5px;
+}
+.secondary{
+  background:#f6e8f2;
+  color:#765c70;
+  border:0;
+  border-radius:12px;
+  padding:8px 12px;
+}
+
+.task{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  background:#fff8fc;
+  border-radius:13px;
+  margin:8px 0;
+}
+.task.done span{text-decoration:line-through;color:#b7a8b4}
+.task input{width:auto;margin:0}
+
+.habit{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:13px;
+  margin:8px 0;
+  background:#fff8fc;
+  border-radius:14px;
+}
+.habit button{
+  border:0;
+  background:#ead2e2;
+  border-radius:50%;
+  width:35px;
+  height:35px;
+}
+.habit button.done{background:#b98bae;color:white}
+
+.stat{
+  text-align:center;
+  padding:20px;
+  background:#fff5fa;
+  border-radius:18px;
+}
+.stat b{display:block;font-size:30px;color:#ad789e}
+
+.calendar-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+.calendar-head button{
+  border:0;
+  background:#f2ddea;
+  border-radius:12px;
+  padding:8px 13px;
+}
+.calendar{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:5px;
+}
+.day-name{text-align:center;font-weight:bold;color:#a47c99;padding:8px 0}
+.day{
+  min-height:55px;
+  background:#fff8fc;
+  border-radius:10px;
+  padding:8px;
+}
+.today{background:#d8b3cd;color:white}
+
+.quote{
+  font-family:Georgia,serif;
+  font-style:italic;
+  color:#8e6d84;
+  line-height:1.6;
+}
+
+.progress{
+  height:10px;
+  background:#f0e2ec;
+  border-radius:20px;
+  overflow:hidden;
+  margin:10px 0;
+}
+.progress div{
+  height:100%;
+  background:#c895b7;
+  width:0%;
+}
+
+.small{font-size:13px;color:#a18e9e}
+footer{text-align:center;padding:30px;color:#aa98a7}
+
+@media(max-width:600px){
+  main{padding:14px}
+  .card{padding:16px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">My Best <span>Self</span> ♡</div>
+  <p>seu cantinho para organizar a vida com carinho ✨</p>
+</header>
+
+<nav>
+  <button class="active" onclick="showPage('home',this)">♡ Hoje</button>
+  <button onclick="showPage('calendar',this)">🌷 Calendário</button>
+  <button onclick="showPage('tasks',this)">✓ Tarefas</button>
+  <button onclick="showPage('habits',this)">💧 Hábitos</button>
+  <button onclick="showPage('study',this)">📚 Estudos</button>
+  <button onclick="showPage('journal',this)">📖 Diário</button>
+  <button onclick="showPage('goals',this)">✨ Metas</button>
+  <button onclick="showPage('selfcare',this)">🧴 Self-care</button>
+  <button onclick="showPage('money',this)">💰 Dinheiro</button>
+  <button onclick="showPage('notes',this)">📝 Notas</button>
+</nav>
+
+<main>
+
+<section id="home" class="page active">
+  <h1>Bom dia, Laura ♡</h1>
+  <p class="subtitle">Um pouquinho de organização para deixar seu dia mais leve.</p>
+
+  <div class="card">
+    <h3>Como você está hoje?</h3>
+    <div class="mood">
+      <button onclick="setMood('🥰')">🥰</button>
+      <button onclick="setMood('😊')">😊</button>
+      <button onclick="setMood('😌')">😌</button>
+      <button onclick="setMood('🥲')">🥲</button>
+      <button onclick="setMood('😴')">😴</button>
+    </div>
+    <p id="moodResult" class="small" style="text-align:center;margin-top:10px"></p>
+  </div>
+
+  <div class="grid">
+    <div class="stat"><b id="taskCount">0</b>Tarefas feitas</div>
+    <div class="stat"><b id="habitCount">0</b>Hábitos hoje</div>
+    <div class="stat"><b>♡</b>Seu momento</div>
+  </div>
+
+  <div class="card">
+    <h3>☁️ Frase do dia</h3>
+    <p class="quote" style="margin-top:12px">
+      “Pequenos passos também levam para lugares incríveis.”
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>🌞 Rotina da manhã</h3>
+    <div class="task"><input type="checkbox"> <span>Beber água</span></div>
+    <div class="task"><input type="checkbox"> <span>Arrumar a cama</span></div>
+    <div class="task"><input type="checkbox"> <span>Skincare</span></div>
+    <div class="task"><input type="checkbox"> <span>Organizar o dia</span></div>
+  </div>
+
+  <div class="card">
+    <h3>🌙 Rotina da noite</h3>
+    <div class="task"><input type="checkbox"> <span>Guardar as coisas</span></div>
+    <div class="task"><input type="checkbox"> <span>Skincare</span></div>
+    <div class="task"><input type="checkbox"> <span>Preparar o dia seguinte</span></div>
+    <div class="task"><input type="checkbox"> <span>Escrever no diário</span></div>
+  </div>
+</section>
+
+<section id="calendar" class="page">
+  <h1>🌷 Calendário</h1>
+  <p class="subtitle">Organize seus dias com calma.</p>
+
+  <div class="card">
+    <div class="calendar-head">
+      <button onclick="changeMonth(-1)">‹</button>
+      <h2 id="monthTitle"></h2>
+      <button onclick="changeMonth(1)">›</button>
+    </div>
+    <div class="calendar" id="calendarGrid"></div>
+  </div>
+</section>
+
+<section id="tasks" class="page">
+  <h1>✓ Minhas tarefas</h1>
+  <p class="subtitle">Tire as coisas da cabeça e coloque no planner.</p>
+
+  <div class="card">
+    <input id="taskInput" placeholder="Ex.: estudar matemática...">
+    <select id="priority">
+      <option>Normal</option>
+      <option>Importante</option>
+      <option>Urgente</option>
+    </select>
+    <button class="primary" onclick="addTask()">+ Adicionar tarefa</button>
+  </div>
+
+  <div class="card">
+    <div id="taskList"></div>
+  </div>
+</section>
+
+<section id="habits" class="page">
+  <h1>💧 Hábitos</h1>
+  <p class="subtitle">Constância, não perfeição.</p>
+
+  <div class="card">
+    <input id="habitInput" placeholder="Ex.: beber água">
+    <button class="primary" onclick="addHabit()">+ Adicionar hábito</button>
+  </div>
+
+  <div class="card">
+    <div id="habitList"></div>
+  </div>
+</section>
+
+<section id="study" class="page">
+  <h1>📚 Estudos</h1>
+  <p class="subtitle">Seu cantinho de estudos para o CEFET e para a escola.</p>
+
+  <div class="card">
+    <h3>🎯 Checklist de estudos</h3>
+    <div class="task"><input type="checkbox"><span>Português</span></div>
+    <div class="task"><input type="checkbox"><span>Matemática</span></div>
+    <div class="task"><input type="checkbox"><span>Biologia</span></div>
+    <div class="task"><input type="checkbox"><span>Química</span></div>
+    <div class="task"><input type="checkbox"><span>Física</span></div>
+    <div class="task"><input type="checkbox"><span>História</span></div>
+    <div class="task"><input type="checkbox"><span>Geografia</span></div>
+  </div>
+
+  <div class="card">
+    <h3>📝 O que preciso estudar?</h3>
+    <textarea id="studyNotes" placeholder="Escreva aqui os conteúdos que precisa revisar..."></textarea>
+    <button class="primary" onclick="saveText('studyNotes')">Salvar</button>
+  </div>
+</section>
+
+<section id="journal" class="page">
+  <h1>📖 Diário</h1>
+  <p class="subtitle">Um espaço só seu.</p>
+
+  <div class="card">
+    <textarea id="journalText" placeholder="Quer me contar como foi seu dia? ♡"></textarea>
+    <button class="primary" onclick="saveText('journalText')">Salvar diário</button>
+    <p id="journalSaved" class="small"></p>
+  </div>
+</section>
+
+<section id="goals" class="page">
+  <h1>✨ Minhas metas</h1>
+  <p class="subtitle">Dream big, start small.</p>
+
+  <div class="card">
+    <input id="goalInput" placeholder="Ex.: passar no CEFET">
+    <button class="primary" onclick="addGoal()">+ Adicionar meta</button>
+  </div>
+
+  <div class="card">
+    <div id="goalList"></div>
+  </div>
+</section>
+
+<section id="selfcare" class="page">
+  <h1>🧴 Self-care</h1>
+  <p class="subtitle">Cuidar de você também entra na agenda.</p>
+
+  <div class="card">
+    <div class="task"><input type="checkbox"><span>Skincare</span></div>
+    <div class="task"><input type="checkbox"><span>Cuidar das unhas</span></div>
+    <div class="task"><input type="checkbox"><span>Organizar meu espaço</span></div>
+    <div class="task"><input type="checkbox"><span>Descansar um pouco</span></div>
+    <div class="task"><input type="checkbox"><span>Fazer algo que gosto</span></div>
+  </div>
+
+  <div class="card">
+    <h3>💗 Hoje eu quero...</h3>
+    <textarea id="selfcareText" placeholder="Escreva uma intenção para cuidar de você hoje..."></textarea>
+    <button class="primary" onclick="saveText('selfcareText')">Salvar</button>
+  </div>
+</section>
+
+<section id="money" class="page">
+  <h1>💰 Dinheiro</h1>
+  <p class="subtitle">Uma visão simples dos seus gastos.</p>
+
+  <div class="card">
+    <input id="expenseName" placeholder="O que você comprou?">
+    <input id="expenseValue" type="number" step="0.01" placeholder="Valor">
+    <button class="primary" onclick="addExpense()">+ Adicionar gasto</button>
+  </div>
+
+  <div class="card">
+    <h3>Total: R$ <span id="totalMoney">0,00</span></h3>
+    <div id="expenseList" style="margin-top:12px"></div>
+  </div>
+</section>
+
+<section id="notes" class="page">
+  <h1>📝 Notinhas</h1>
+  <p class="subtitle">Ideias, lembretes e pensamentos.</p>
+
+  <div class="card">
+    <textarea id="notesText" placeholder="Escreva tudo o que quiser guardar aqui..."></textarea>
+    <button class="primary" onclick="saveText('notesText')">Salvar notas</button>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Feito com carinho ♡ My Best Self
+</footer>
+
+<script>
+
+function showPage(id,button){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  button.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function setMood(m){
+  localStorage.setItem('mood',m);
+  document.getElementById('moodResult').textContent='Meu humor hoje: '+m;
+}
+
+if(localStorage.getItem('mood')){
+  document.getElementById('moodResult').textContent=
+  'Meu humor hoje: '+localStorage.getItem('mood');
+}
+
+function saveText(id){
+  localStorage.setItem(id,document.getElementById(id).value);
+  if(id==='journalText')
+    document.getElementById('journalSaved').textContent='♡ Salvo!';
+}
+
+['studyNotes','journalText','selfcareText','notesText'].forEach(id=>{
+  const el=document.getElementById(id);
+  const saved=localStorage.getItem(id);
+  if(saved)el.value=saved;
+});
+
+let tasks=JSON.parse(localStorage.getItem('tasks')||'[]');
+
+function addTask(){
+  const input=document.getElementById('taskInput');
+  if(!input.value.trim())return;
+  tasks.push({
+    text:input.value,
+    priority:document.getElementById('priority').value,
+    done:false
+  });
+  input.value='';
+  saveTasks();
+  renderTasks();
+}
+
+function saveTasks(){
+  localStorage.setItem('tasks',JSON.stringify(tasks));
+}
+
+function renderTasks(){
+  const list=document.getElementById('taskList');
+  list.innerHTML='';
+  tasks.forEach((t,i)=>{
+    const div=document.createElement('div');
+    div.className='task '+(t.done?'done':'');
+    div.innerHTML=
+      `<input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${i})">
+      <span>${t.text} <small>(${t.priority})</small></span>
+      <button class="secondary" onclick="deleteTask(${i})">×</button>`;
+    list.appendChild(div);
+  });
+  document.getElementById('taskCount').textContent=
+    tasks.filter(t=>t.done).length;
+}
+
+function toggleTask(i){
+  tasks[i].done=!tasks[i].done;
+  saveTasks();
+  renderTasks();
+}
+
+function deleteTask(i){
+  tasks.splice(i,1);
+  saveTasks();
+  renderTasks();
+}
+
+renderTasks();
+
+let habits=JSON.parse(localStorage.getItem('habits')||'[]');
+
+function addHabit(){
+  const input=document.getElementById('habitInput');
+  if(!input.value.trim())return;
+  habits.push({text:input.value,done:false});
+  input.value='';
+  saveHabits();
+  renderHabits();
+}
+
+function saveHabits(){
+  localStorage.setItem('habits',JSON.stringify(habits));
+}
+
+function renderHabits(){
+  const list=document.getElementById('habitList');
+  list.innerHTML='';
+  habits.forEach((h,i)=>{
+    const div=document.createElement('div');
+    div.className='habit';
+    div.innerHTML=
+      `<span>${h.text}</span>
+      <div>
+      <button class="${h.done?'done':''}" onclick="toggleHabit(${i})">
+      ${h.done?'✓':'○'}
+      </button>
+      <button class="secondary" onclick="deleteHabit(${i})">×</button>
+      </div>`;
+    list.appendChild(div);
+  });
+  document.getElementById('habitCount').textContent=
+    habits.filter(h=>h.done).length;
+}
+
+function toggleHabit(i){
+  habits[i].done=!habits[i].done;
+  saveHabits();
+  renderHabits();
+}
+
+function deleteHabit(i){
+  habits.splice(i,1);
+  saveHabits();
+  renderHabits();
+}
+
+renderHabits();
+
+let goals=JSON.parse(localStorage.getItem('goals')||'[]');
+
+function addGoal(){
+  const input=document.getElementById('goalInput');
+  if(!input.value.trim())return;
+  goals.push({text:input.value,done:false});
+  input.value='';
+  saveGoals();
+  renderGoals();
+}
+
+function saveGoals(){
+  localStorage.setItem('goals',JSON.stringify(goals));
+}
+
+function renderGoals(){
+  const list=document.getElementById('goalList');
+  list.innerHTML='';
+  goals.forEach((g,i)=>{
+    const div=document.createElement('div');
+    div.className='task '+(g.done?'done':'');
+    div.innerHTML=
+      `<input type="checkbox" ${g.done?'checked':''} onchange="toggleGoal(${i})">
+      <span>${g.text}</span>
+      <button class="secondary" onclick="deleteGoal(${i})">×</button>`;
+    list.appendChild(div);
+  });
+}
+
+function toggleGoal(i){
+  goals[i].done=!goals[i].done;
+  saveGoals();
+  renderGoals();
+}
+
+function deleteGoal(i){
+  goals.splice(i,1);
+  saveGoals();
+  renderGoals();
+}
+
+renderGoals();
+
+let expenses=JSON.parse(localStorage.getItem('expenses')||'[]');
+
+function addExpense(){
+  const name=document.getElementById('expenseName');
+  const value=document.getElementById('expenseValue');
+  if(!name.value || !value.value)return;
+
+  expenses.push({
+    name:name.value,
+    value:Number(value.value)
+  });
+
+  name.value='';
+  value.value='';
+  localStorage.setItem('expenses',JSON.stringify(expenses));
+  renderExpenses();
+}
+
+function renderExpenses(){
+  const list=document.getElementById('expenseList');
+  list.innerHTML='';
+  let total=0;
+
+  expenses.forEach((e,i)=>{
+    total+=e.value;
+    const div=document.createElement('div');
+    div.className='task';
+    div.innerHTML=
+      `<span>${e.name} — R$ ${e.value.toFixed(2).replace('.',',')}</span>
+      <button class="secondary" onclick="deleteExpense(${i})">×</button>`;
+    list.appendChild(div);
+  });
+
+  document.getElementById('totalMoney').textContent=
+    total.toFixed(2).replace('.',',');
+}
+
+function deleteExpense(i){
+  expenses.splice(i,1);
+  localStorage.setItem('expenses',JSON.stringify(expenses));
+  renderExpenses();
+}
+
+renderExpenses();
+
+let currentDate=new Date();
+
+function renderCalendar(){
+  const grid=document.getElementById('calendarGrid');
+  grid.innerHTML='';
+
+  const months=[
+    'Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+    'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'
+  ];
+
+  document.getElementById('monthTitle').textContent=
+    months[currentDate.getMonth()]+' '+currentDate.getFullYear();
+
+  ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'].forEach(d=>{
+    const el=document.createElement('div');
+    el.className='day-name';
+    el.textContent=d;
+    grid.appendChild(el);
+  });
+
+  const first=new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
+  ).getDay();
+
+  const total=new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth()+1,
+    0
+  ).getDate();
+
+  for(let i=0;i<first;i++){
+    grid.appendChild(document.createElement('div'));
+  }
+
+  const today=new Date();
+
+  for(let d=1;d<=total;d++){
+    const el=document.createElement('div');
+    el.className='day';
+    el.textContent=d;
+
+    if(
+      d===today.getDate() &&
+      currentDate.getMonth()===today.getMonth() &&
+      currentDate.getFullYear()===today.getFullYear()
+    ){
+      el.classList.add('today');
+    }
+
+    grid.appendChild(el);
+  }
+}
+
+function changeMonth(n){
+  currentDate.setMonth(currentDate.getMonth()+n);
+  renderCalendar();
+}
+
+renderCalendar();
+
+</script>
+
+</body>
+    </html>

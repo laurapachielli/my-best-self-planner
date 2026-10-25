@@ -1,0 +1,19 @@
+{
+  "name": "My Best Self — Planner",
+  "short_name": "My Best Self",
+  "lang": "pt-BR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fff8fb",
+  "theme_color": "#dca9ca",
+  "description": "Meu planner pessoal para organizar estudos, tarefas, hábitos e momentos de autocuidado.",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

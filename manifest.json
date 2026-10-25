@@ -10,10 +10,10 @@
   "description": "Meu planner pessoal para organizar estudos, tarefas, hábitos e momentos de autocuidado.",
   "icons": [
     {
-      "src": "./icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "src": "./my-best-self-icon-laco-xadrez.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
